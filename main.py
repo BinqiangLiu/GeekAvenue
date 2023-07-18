@@ -22,18 +22,19 @@ def read_and_textify(files):
           sources_list.append(file.name + "_page_"+str(i))
     return [text_list,sources_list]
   
-st.set_page_config(layout="centered", page_title="Multidoc_QnA")
-st.header("Multidoc_QnA")
+st.set_page_config(layout="centered", page_title="AI智能文档问答")
+st.header("支持多语言的AI智能文档问答程序")
 st.write("---")
   
 #file uploader
-uploaded_files = st.file_uploader("Upload documents",accept_multiple_files=True, type=["txt","pdf"])
+#uploaded_files = st.file_uploader("上传文档/Upload documents",accept_multiple_files=True, type=["txt","pdf"])
+uploaded_files = st.file_uploader("上传文档/Upload documents",accept_multiple_files=True, type=["pdf"])
 st.write("---")
 
 if uploaded_files is None:
-  st.info(f"""Upload files to analyse""")
+  st.info(f"""上传文档开始分析/Upload files to analyse""")
 elif uploaded_files:
-  st.write(str(len(uploaded_files)) + " document(s) loaded..")
+  st.write("已上传" + str(len(uploaded_files)) + "文档。/" + str(len(uploaded_files)) + " document(s) loaded.")
   
   textify_output = read_and_textify(uploaded_files)
   
@@ -55,29 +56,17 @@ elif uploaded_files:
   llm = OpenAI(model_name=model_name, openai_api_key = st.secrets["openai_api_key"], streaming=True)
   model = RetrievalQAWithSourcesChain.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever)
   
-  st.header("Ask your data")
-  user_q = st.text_area("Enter your questions here")
+  st.header("开始问答/Ask your data")
+  user_q = st.text_area("请在此输入您的问题/Enter your questions here")
   
-  if st.button("Get Response"):
+  if st.button("获取答案/Get Response"):
     try:
-      with st.spinner("Model is working on it..."):
+      with st.spinner("答案获取中，请稍后。/Your response is on the way, please wait."):
         result = model({"question":user_q}, return_only_outputs=True)
-        st.subheader('Your response:')
+        st.subheader('AI智能回答/Your AI response:')
         st.write(result['answer'])
-        st.subheader('Source pages:')
+        st.subheader('出处/Source:')
         st.write(result['sources'])
     except Exception as e:
-      st.error(f"An error occurred: {e}")
+      st.error(f"噢，出错了！/An error occurred: {e}")
       st.error('Oops, the GPT response resulted in an error :( Please try again with a different question.')
-      
-        
-    
-  
-  
-  
-  
-  
-  
-  
-  
-  
