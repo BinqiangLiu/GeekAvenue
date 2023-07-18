@@ -65,7 +65,7 @@ elif uploaded_files:
         result = model({"question":user_q}, return_only_outputs=True)
         st.subheader('AI智能回答/Your AI response')
         st.write(result['answer'])
-        st.subheader('出处/Source:')
+        st.subheader('出处/Source')
         st.write(result['sources'])
     except Exception as e:
       st.error(f"噢，出错了！/An error occurred: {e}")
