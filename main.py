@@ -34,7 +34,7 @@ st.write("---")
 if uploaded_files is None:
   st.info(f"""上传文档开始分析/Upload files to analyse""")
 elif uploaded_files:
-  st.write("已上传" + str(len(uploaded_files)) + "文档。/" + str(len(uploaded_files)) + " document(s) loaded.")
+  st.write("已上传" + str(len(uploaded_files)) + "个文档/" + str(len(uploaded_files)) + " document(s) loaded")
   
   textify_output = read_and_textify(uploaded_files)
   
@@ -61,9 +61,9 @@ elif uploaded_files:
   
   if st.button("获取答案/Get Response"):
     try:
-      with st.spinner("答案获取中，请稍后。/Your response is on the way, please wait."):
+      with st.spinner("答案获取中，请稍候/Your response is on the way, please wait"):
         result = model({"question":user_q}, return_only_outputs=True)
-        st.subheader('AI智能回答/Your AI response:')
+        st.subheader('AI智能回答/Your AI response')
         st.write(result['answer'])
         st.subheader('出处/Source:')
         st.write(result['sources'])
